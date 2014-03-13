@@ -25,11 +25,12 @@
 
 	<footer class="entry-meta">
 		<?php
+			$termlist = '';
+			
 			// get all public taxonomies for this post type
 			$taxes = get_taxonomies( array( 'public' => true, 'object_type' => get_post_type() ), 'objects' );
 
 			if (!empty($taxes)) :
-				$termlist = '';
 				foreach ($taxes as $tax) :
 					$termlist .= get_the_term_list( get_the_ID(), $tax->name, '<span class="terms"><strong>'.$tax->label.':</strong> ', ', ', '</span>' );
 				endforeach;
