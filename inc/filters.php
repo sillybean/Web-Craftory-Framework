@@ -40,17 +40,31 @@ add_filter('the_content', 'craftory_append_child_pages');
  */
 function craftory_comment_default( $post_content, $post ) {
 	$options = get_option('craftory');
-    if ( isset( $options['comments'][$post->post_type] ) &&  '0' == $options['comments'][$post->post_type] ) {
-    	$post->comment_status = 0;
-		$post->ping_status = 0;
+    if ( isset( $options['comments'][$post->post_type] ) &&  0 == $options['comments'][$post->post_type] ) {
+    	$post->comment_status = 'closed';
+		$post->ping_status = 'closed';
 	}
 	else {
-		$post->comment_status = 1;
-		$post->ping_status = 1;
+		$post->comment_status = 'open';
+		$post->ping_status = 'open';
 	}
     return $post_content;
 }
 add_filter( 'default_content', 'craftory_comment_default', 10, 2 );
+
+// Attachments do not use the default_content filter
+function craftory_attachment_comment_default( $post_id ) {
+	$options = get_option( 'comment_defaults_settings', array() );
+	$post = get_post( $post_id );
+
+	if ( isset( $options['comments']['attachment'] ) && 0 == $options['comments']['attachment'] ) {
+		$post->comment_status = 'closed';
+		$post->ping_status = 'closed';
+		wp_update_post( $post );
+	}
+}
+add_action( 'add_attachment', 'craftory_attachment_comment_default' );
+
 
 /**
  * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
