@@ -7,6 +7,9 @@
 
 
 if ( ! function_exists( 'craftory_menu' ) ) :
+/**
+ * Display navigation menu with 'Menu' heading for mobile toggle.
+ */
 	function craftory_menu( $location, $skipto = 'content', $label = 'Menu' ) {
 		if ( has_nav_menu( $location ) ) : ?>
 		<nav id="site-navigation" class="main-navigation" role="navigation">
@@ -19,6 +22,9 @@ if ( ! function_exists( 'craftory_menu' ) ) :
 endif;
 
 if (! function_exists( 'craftory_image_size_links') ) :
+/**
+ * Display available image sizes as download links.
+ */
 	function craftory_image_size_links() {
 		if ( !wp_attachment_is_image( get_the_ID() ) )
 			return;

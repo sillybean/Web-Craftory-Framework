@@ -40,13 +40,13 @@ add_filter('the_content', 'craftory_append_child_pages');
  */
 function craftory_comment_default( $post_content, $post ) {
 	$options = get_option('craftory');
-    if ( $post->post_type && $options['comments'][$post->post_type] == '0' ) {
-    	$post->comment_status = 'closed';
-		$post->ping_status = 'closed';
+    if ( isset( $options['comments'][$post->post_type] ) &&  '0' == $options['comments'][$post->post_type] ) {
+    	$post->comment_status = 0;
+		$post->ping_status = 0;
 	}
 	else {
-		$post->comment_status = 'open';
-		$post->ping_status = 'open';
+		$post->comment_status = 1;
+		$post->ping_status = 1;
 	}
     return $post_content;
 }
